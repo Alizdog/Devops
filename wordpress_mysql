@@ -4,7 +4,7 @@ services:
    db:
      image: mysql:5.7
      volumes:
-       - /srv/docker/mysql:/var/lib/mysql
+       - db_data:/var/lib/mysql
      restart: always
      environment:
        MYSQL_ROOT_PASSWORD: somewordpress
@@ -23,4 +23,10 @@ services:
        WORDPRESS_DB_HOST: db:3306
        WORDPRESS_DB_USER: wordpress
        WORDPRESS_DB_PASSWORD: wordpress
-       WORDPRESS_DB_NAME: wordpress
+
+volumes: 
+   db_data:
+     driver_opts:
+       type: "nfs"
+       o: "addr=192.168.20.219,nolock,soft,rw"
+       device: ":/srv/docker/mysql"
